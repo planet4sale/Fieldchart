@@ -1,0 +1,27 @@
+Fieldchart
+=============================
+...Display Drupal field values as a bar chart.
+
+
+Functions
+============
+
+ - Functions defining a formatter for the field (the portion that outputs the field for display):
+    - hook_field_formatter_info()
+    - hook_field_formatter_view()
+    
+    
+Description of module
+===================   
+    
+ - Our module sets up a formatter in fieldchart_field_formatter_info() and fieldchart_field_formatter_view(). 
+ - These are the Drupal API hooks that present formatted and themed output to the user.
+ - The field values (numbers) are put through the Drupal Google Chart API theme function and output as a bar chart.
+ 
+ 
+ TODO
+=========
+
+ - Additional functions defining the field formatter:
+    - hook_field_formatter_settings_form()
+    - hook_field_formatter_settings_summary()    
