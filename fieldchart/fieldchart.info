@@ -1,0 +1,6 @@
+name = Chart API Bar Chart Field
+description = Display field values as a bar chart.
+core = 7.x
+package = Charting
+dependencies[] = chart
+

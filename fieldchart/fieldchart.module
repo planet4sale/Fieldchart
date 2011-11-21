@@ -1,0 +1,66 @@
+<?php
+/**
+ *
+ * - Defining a formatter for the field (the portion that outputs the field for
+ *   display):
+ *   - hook_field_formatter_info()
+ *   - hook_field_formatter_view()
+ *
+ * Our module sets up a formatter in fieldchart_field_formatter_info() and
+ * fieldchart_field_formatter_view(). These are the API hooks that present
+ * formatted and themed output to the user.
+ *
+ * @see field
+ *
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * We need to tell Drupal that we have a formatter for this field. 
+ *
+ * @see fieldchart_field_formatter_view()
+ */
+function fieldchart_field_formatter_info() {
+  return array(
+    'fieldchart_data' => array(
+      'label' => t('Google API chart'),
+      'description' => t('Displays a Google API chart.'),
+      'field types' => array('number_integer'),  
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ */
+function fieldchart_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  switch ($display['type']) {
+    // This formatter outputs the field as a barchart.
+    case 'fieldchart_data':
+
+    $chart = array(
+      '#chart_id' =>$entity->title,
+      '#title' => $entity->title,
+      '#type' => CHART_TYPE_BAR_V,  // bvs
+      '#size' => chart_size(400, 200),
+      '#chart_fill' => chart_fill('c', 'eeeeee'),
+      '#grid_lines' => chart_grid_lines(20, 20, 1, 5),
+    );
+
+    foreach ($items as $delta => $item) {
+      $chart['#data'][] = $item['value'];
+    }
+    
+    $element[0] = array(
+      // also see #theme
+      '#markup' => theme('chart', array('chart' => $chart)),
+    );
+      break;
+  }
+
+  return $element;
+}
